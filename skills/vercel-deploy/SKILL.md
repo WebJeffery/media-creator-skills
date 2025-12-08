@@ -93,3 +93,17 @@ Claim URL:   https://vercel.com/claim-deployment?code=...
 View your site at the Preview URL.
 To transfer this deployment to your Vercel account, visit the Claim URL.
 ```
+
+## Troubleshooting
+
+### Network Egress Error
+
+If deployment fails due to network restrictions (common on claude.ai), tell the user:
+
+```
+Deployment failed due to network restrictions. To fix this:
+
+1. Go to https://claude.ai/admin-settings/capabilities
+2. Add *.vercel.com to the allowed domains
+3. Try deploying again
+```

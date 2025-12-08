@@ -71,6 +71,15 @@ Each skill contains:
 - `SKILL.md` - Instructions for Claude
 - `scripts/` - Helper scripts for automation
 
+## Troubleshooting
+
+### Network egress error on claude.ai
+
+If deployment fails due to network restrictions, you need to allow Vercel domains:
+
+1. Go to [claude.ai/admin-settings/capabilities](https://claude.ai/admin-settings/capabilities)
+2. Add `*.vercel.com` to the allowed domains
+
 ## License
 
 MIT
