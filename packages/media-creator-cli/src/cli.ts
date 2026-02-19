@@ -4,13 +4,19 @@ import { Command } from 'commander'
 import chalk from 'chalk'
 import inquirer from 'inquirer'
 import ora from 'ora'
-import { readdir, access, readFile, copyFile, mkdir } from 'fs/promises'
+import { readdir, readFile, copyFile, mkdir, rm } from 'fs/promises'
 import { existsSync } from 'fs'
 import { join, resolve, relative, dirname } from 'path'
 import { fileURLToPath } from 'url'
+import { execSync } from 'child_process'
+import { homedir } from 'os'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
+
+// GitHub 仓库配置
+const GITHUB_REPO = 'https://github.com/WebJeffery/media-creator-skills.git'
+const CACHE_DIR = join(homedir(), '.media-creator-skills', 'cache')
 
 interface SkillInfo {
   name: string
@@ -136,9 +142,60 @@ async function scanSkills(skillsDir: string): Promise<SkillInfo[]> {
 }
 
 /**
+ * 从 GitHub 克隆或更新技能包
+ */
+async function syncSkillsRepo(force: boolean = false): Promise<string> {
+  const spinner = ora('同步技能包...').start()
+
+  try {
+    // 检查缓存目录是否存在
+    if (existsSync(CACHE_DIR)) {
+      if (force) {
+        spinner.text = '删除旧缓存...'
+        await rm(CACHE_DIR, { recursive: true, force: true })
+      } else {
+        spinner.text = '检查更新...'
+        try {
+          // 尝试拉取最新代码
+          execSync('git fetch', { cwd: CACHE_DIR, stdio: 'pipe' })
+          const localHash = execSync('git rev-parse HEAD', { cwd: CACHE_DIR, encoding: 'utf-8' }).trim()
+          const remoteHash = execSync('git rev-parse @{u}', { cwd: CACHE_DIR, encoding: 'utf-8' }).trim()
+
+          if (localHash === remoteHash) {
+            spinner.succeed('技能包已是最新')
+            return CACHE_DIR
+          }
+
+          spinner.text = '更新技能包...'
+          execSync('git pull', { cwd: CACHE_DIR, stdio: 'pipe' })
+          spinner.succeed('技能包更新成功')
+          return CACHE_DIR
+        } catch (error) {
+          spinner.text = '重新克隆技能包...'
+          await rm(CACHE_DIR, { recursive: true, force: true })
+        }
+      }
+    }
+
+    // 克隆仓库
+    spinner.text = '克隆技能包...'
+    execSync(`git clone --depth 1 ${GITHUB_REPO} ${CACHE_DIR}`, {
+      stdio: 'pipe',
+      encoding: 'utf-8',
+    })
+
+    spinner.succeed('技能包同步成功')
+    return CACHE_DIR
+  } catch (error: any) {
+    spinner.fail('同步失败: ' + error.message)
+    throw error
+  }
+}
+
+/**
  * 按平台和阶段组织技能
  */
-function organizeSkills(skills: SkillInfo[]) {
+function organizeSkills(skills: SkillInfo[], skillsDir: string) {
   const organized: Record<string, Record<string, SkillInfo[]>> = {}
 
   for (const skill of skills) {
@@ -219,8 +276,32 @@ async function getClaudeSkillsDir(): Promise<string> {
   return defaultPath
 }
 
-// 获取 skills 目录路径
-const skillsDir = resolve(__dirname, '../../../skills')
+/**
+ * 检查是否在开发环境
+ */
+function isDevelopment(): boolean {
+  const localSkillsDir = resolve(__dirname, '../../../skills')
+  return existsSync(localSkillsDir) && existsSync(join(localSkillsDir, 'wechat'))
+}
+
+/**
+ * 获取 skills 目录路径
+ */
+async function getSkillsDir(useCache: boolean = true): Promise<string> {
+  // 如果在开发环境，优先使用本地 skills 目录
+  if (isDevelopment()) {
+    const localSkillsDir = resolve(__dirname, '../../../skills')
+    return localSkillsDir
+  }
+
+  // 生产环境：优先使用缓存
+  if (useCache && existsSync(CACHE_DIR)) {
+    return CACHE_DIR
+  }
+
+  // 如果没有缓存，同步 GitHub 仓库
+  return await syncSkillsRepo(false)
+}
 
 const program = new Command()
 
@@ -232,10 +313,12 @@ program
 program
   .command('list')
   .description('列出所有可用技能')
-  .action(async () => {
+  .option('--offline', '离线模式，使用本地缓存')
+  .action(async (options) => {
     console.log(chalk.cyan('\n📚 扫描可用技能...\n'))
 
     const spinner = ora('正在扫描 skills 目录').start()
+    const skillsDir = await getSkillsDir(!options.offline)
     const skills = await scanSkills(skillsDir)
     spinner.stop()
 
@@ -244,7 +327,7 @@ program
       return
     }
 
-    const organized = organizeSkills(skills)
+    const organized = organizeSkills(skills, skillsDir)
 
     for (const [platformKey, platform] of Object.entries(PLATFORMS)) {
       const platformSkills = organized[platformKey]
@@ -272,10 +355,12 @@ program
   .option('-p, --platform <platform>', '指定媒体平台')
   .option('-s, --stage <stage>', '指定创作阶段')
   .option('-a, --all', '安装所有技能')
+  .option('--offline', '离线模式，使用本地缓存')
   .action(async (options) => {
     console.log(chalk.cyan('\n📦 准备安装技能...\n'))
 
     const spinner = ora('正在扫描 skills 目录').start()
+    const skillsDir = await getSkillsDir(!options.offline)
     const skills = await scanSkills(skillsDir)
     spinner.stop()
 
@@ -431,12 +516,22 @@ program
   })
 
 program
+  .command('sync')
+  .description('同步 GitHub 仓库中的技能包')
+  .option('-f, --force', '强制重新下载')
+  .action(async (options) => {
+    await syncSkillsRepo(options.force)
+  })
+
+program
   .command('info <skill-name>')
   .description('查看技能详细信息')
-  .action(async (skillName: string) => {
+  .option('--offline', '离线模式，使用本地缓存')
+  .action(async (skillName: string, options) => {
     console.log(chalk.cyan(`\n🔍 查找技能: ${skillName}\n`))
 
     const spinner = ora('正在扫描').start()
+    const skillsDir = await getSkillsDir(!options.offline)
     const skills = await scanSkills(skillsDir)
     spinner.stop()
 
@@ -481,10 +576,12 @@ program
 program
   .command('search <keyword>')
   .description('搜索技能')
-  .action(async (keyword: string) => {
+  .option('--offline', '离线模式，使用本地缓存')
+  .action(async (keyword: string, options) => {
     console.log(chalk.cyan(`\n🔍 搜索: ${keyword}\n`))
 
     const spinner = ora('正在搜索').start()
+    const skillsDir = await getSkillsDir(!options.offline)
     const skills = await scanSkills(skillsDir)
     spinner.stop()
 

@@ -1,15 +1,21 @@
 {
-  "name": "media-creator-cli",
-  "version": "1.0.0",
-  "description": "CLI tool for managing media creator skills",
+  "name": "@baichuan-skill/media-creator-skills",
+  "version": "1.0.2",
+  "description": "CLI tool for installing and managing media creator AI skills",
   "type": "module",
   "bin": {
     "media-creator-skills": "./dist/cli.js"
   },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc",
     "dev": "tsx src/cli.ts",
-    "start": "node dist/cli.js"
+    "start": "node dist/cli.js",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "cli",
@@ -17,9 +23,28 @@
     "skills",
     "wechat",
     "xiaohongshu",
-    "douyin"
+    "douyin",
+    "ai",
+    "claude",
+    "content-creation"
   ],
+  "author": "WebJeffery",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WebJeffery/media-creator-skills.git",
+    "directory": "packages/media-creator-cli"
+  },
+  "homepage": "https://github.com/WebJeffery/media-creator-skills#readme",
+  "bugs": {
+    "url": "https://github.com/WebJeffery/media-creator-skills/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "dependencies": {
     "chalk": "^5.3.0",
     "commander": "^12.1.0",
