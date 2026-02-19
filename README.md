@@ -1,146 +1,170 @@
-# Agent Skills
+# 🎨 新媒体创作者 AI Skills
 
-A collection of skills for AI coding agents. Skills are packaged instructions and scripts that extend agent capabilities.
+<p align="center">
+  <strong>新媒体人的 AI 技能精选仓库</strong><br>
+  为公众号、小红书、抖音创作者打造的 AI Agent Skills 集合
+</p>
 
-Skills follow the [Agent Skills](https://agentskills.io/) format.
+<p align="center">
+  <a href="#公众号-skills">公众号</a> •
+  <a href="#小红书-skills">小红书</a> •
+  <a href="#抖音-skills">抖音</a> •
+  <a href="#通用-skills">通用技能</a> •
+  <a href="#安装使用">安装使用</a>
+</p>
 
-## Available Skills
+---
 
-### react-best-practices
+## 项目简介
 
-React and Next.js performance optimization guidelines from Vercel Engineering. Contains 40+ rules across 8 categories, prioritized by impact.
+本仓库收集和整理面向**新媒体创作者**的 AI Skills，帮助你用 AI 提升内容创作效率。每个 Skill 都是一组结构化的提示词和脚本，可以被 Claude、Cursor、Windsurf 等 AI 工具直接加载使用。
 
-**Use when:**
-- Writing new React components or Next.js pages
-- Implementing data fetching (client or server-side)
-- Reviewing code for performance issues
-- Optimizing bundle size or load times
+**核心价值：**
+- 📝 **内容创作** — 标题生成、文案撰写、内容改写
+- 🎯 **平台适配** — 针对不同平台的规则和算法优化
+- 📊 **数据分析** — 选题分析、热点追踪、竞品研究
+- 🖼️ **视觉设计** — 封面设计建议、排版优化、视觉风格
 
-**Categories covered:**
-- Eliminating waterfalls (Critical)
-- Bundle size optimization (Critical)
-- Server-side performance (High)
-- Client-side data fetching (Medium-High)
-- Re-render optimization (Medium)
-- Rendering performance (Medium)
-- JavaScript micro-optimizations (Low-Medium)
+## 创作流程
 
-### web-design-guidelines
+Skills 按内容创作 SOP 四阶段组织，便于按工作流程选择使用：
 
-Review UI code for compliance with web interface best practices. Audits your code for 100+ rules covering accessibility, performance, and UX.
-
-**Use when:**
-- "Review my UI"
-- "Check accessibility"
-- "Audit design"
-- "Review UX"
-- "Check my site against best practices"
-
-**Categories covered:**
-- Accessibility (aria-labels, semantic HTML, keyboard handlers)
-- Focus States (visible focus, focus-visible patterns)
-- Forms (autocomplete, validation, error handling)
-- Animation (prefers-reduced-motion, compositor-friendly transforms)
-- Typography (curly quotes, ellipsis, tabular-nums)
-- Images (dimensions, lazy loading, alt text)
-- Performance (virtualization, layout thrashing, preconnect)
-- Navigation & State (URL reflects state, deep-linking)
-- Dark Mode & Theming (color-scheme, theme-color meta)
-- Touch & Interaction (touch-action, tap-highlight)
-- Locale & i18n (Intl.DateTimeFormat, Intl.NumberFormat)
-
-### react-native-guidelines
-
-React Native best practices optimized for AI agents. Contains 16 rules across 7 sections covering performance, architecture, and platform-specific patterns.
-
-**Use when:**
-- Building React Native or Expo apps
-- Optimizing mobile performance
-- Implementing animations or gestures
-- Working with native modules or platform APIs
-
-**Categories covered:**
-- Performance (Critical) - FlashList, memoization, heavy computation
-- Layout (High) - flex patterns, safe areas, keyboard handling
-- Animation (High) - Reanimated, gesture handling
-- Images (Medium) - expo-image, caching, lazy loading
-- State Management (Medium) - Zustand patterns, React Compiler
-- Architecture (Medium) - monorepo structure, imports
-- Platform (Medium) - iOS/Android specific patterns
-
-### composition-patterns
-
-React composition patterns that scale. Helps avoid boolean prop proliferation through compound components, state lifting, and internal composition.
-
-**Use when:**
-- Refactoring components with many boolean props
-- Building reusable component libraries
-- Designing flexible APIs
-- Reviewing component architecture
-
-**Patterns covered:**
-- Extracting compound components
-- Lifting state to reduce props
-- Composing internals for flexibility
-- Avoiding prop drilling
-
-### vercel-deploy-claimable
-
-Deploy applications and websites to Vercel instantly. Designed for use with claude.ai and Claude Desktop to enable deployments directly from conversations. Deployments are "claimable" - users can transfer ownership to their own Vercel account.
-
-**Use when:**
-- "Deploy my app"
-- "Deploy this to production"
-- "Push this live"
-- "Deploy and give me the link"
-
-**Features:**
-- Auto-detects 40+ frameworks from `package.json`
-- Returns preview URL (live site) and claim URL (transfer ownership)
-- Handles static HTML projects automatically
-- Excludes `node_modules` and `.git` from uploads
-
-**How it works:**
-1. Packages your project into a tarball
-2. Detects framework (Next.js, Vite, Astro, etc.)
-3. Uploads to deployment service
-4. Returns preview URL and claim URL
-
-**Output:**
 ```
-Deployment successful!
-
-Preview URL: https://skill-deploy-abc123.vercel.app
-Claim URL:   https://vercel.com/claim-deployment?code=...
+┌──────────────┐    ┌──────────────┐    ┌──────────────┐    ┌───────────┐
+│  01-策划     │───▶│  02-创作     │───▶│  03-优化     │───▶│ 04-分析   │
+│  Planning    │    │  Creation    │    │ Optimization │    │ Analytics │
+└──────────────┘    └──────────────┘    └──────────────┘    └───────────┘
+     选题规划           内容撰写           标题/SEO优化        数据追踪
+     受众分析           脚本编写           排版/标签优化       效果分析
 ```
 
-## Installation
+> 详细的分类结构设计请参考 [SKILLS-STRUCTURE.md](SKILLS-STRUCTURE.md)
+
+## 平台 Skills 总览
+
+### 公众号 Skills
+
+面向微信公众号创作者的技能集合。
+
+| 阶段 | Skill | 描述 | 路径 |
+|------|-------|------|------|
+| 策划 | topic-planner | 选题规划助手，生成周/月内容日历 | [01-planning/topic-planner](skills/wechat/01-planning/topic-planner/) |
+| 创作 | article-writer | 公众号长文写作助手，支持多种文章类型 | [02-creation/article-writer](skills/wechat/02-creation/article-writer/) |
+| 创作 | content-rewriter | 内容改写与洗稿，保持原意优化表达 | [02-creation/content-rewriter](skills/wechat/02-creation/content-rewriter/) |
+| 优化 | title-generator | 爆款标题生成器，基于 10w+ 爆文规律 | [03-optimization/title-generator](skills/wechat/03-optimization/title-generator/) |
+| 优化 | layout-optimizer | 公众号排版优化，提升阅读体验 | [03-optimization/layout-optimizer](skills/wechat/03-optimization/layout-optimizer/) |
+
+### 小红书 Skills
+
+面向小红书创作者的技能集合。
+
+| 阶段 | Skill | 描述 | 路径 |
+|------|-------|------|------|
+| 创作 | note-writer | 小红书笔记写作助手，自动适配平台风格 | [02-creation/note-writer](skills/xiaohongshu/02-creation/note-writer/) |
+| 创作 | hook-writer | 开头金句生成器，提升笔记点击率 | [02-creation/hook-writer](skills/xiaohongshu/02-creation/hook-writer/) |
+| 优化 | title-generator | 小红书爆款标题生成，含 emoji 优化 | [03-optimization/title-generator](skills/xiaohongshu/03-optimization/title-generator/) |
+| 优化 | tag-optimizer | 话题标签优化，提升笔记曝光量 | [03-optimization/tag-optimizer](skills/xiaohongshu/03-optimization/tag-optimizer/) |
+| 优化 | cover-advisor | 封面设计建议，基于热门笔记分析 | [03-optimization/cover-advisor](skills/xiaohongshu/03-optimization/cover-advisor/) |
+
+### 抖音 Skills
+
+面向抖音/短视频创作者的技能集合。
+
+| 阶段 | Skill | 描述 | 路径 |
+|------|-------|------|------|
+| 策划 | topic-finder | 热门选题发现，追踪平台热点趋势 | [01-planning/topic-finder](skills/douyin/01-planning/topic-finder/) |
+| 创作 | script-writer | 短视频脚本撰写，含分镜和口播稿 | [02-creation/script-writer](skills/douyin/02-creation/script-writer/) |
+| 创作 | hook-generator | 黄金3秒开头生成器，提升完播率 | [02-creation/hook-generator](skills/douyin/02-creation/hook-generator/) |
+| 优化 | title-generator | 抖音标题和文案生成，含热门话题适配 | [03-optimization/title-generator](skills/douyin/03-optimization/title-generator/) |
+| 优化 | seo-optimizer | 抖音 SEO 优化，提升搜索排名 | [03-optimization/seo-optimizer](skills/douyin/03-optimization/seo-optimizer/) |
+
+### 通用 Skills
+
+跨平台通用的新媒体创作技能。
+
+| Skill | 描述 | 路径 |
+|-------|------|------|
+| content-calendar | 多平台内容日历规划，统一管理发布节奏 | [common/content-calendar](skills/common/content-calendar/) |
+| hot-topic-tracker | 全网热点追踪，快速生成追热内容 | [common/hot-topic-tracker](skills/common/hot-topic-tracker/) |
+| audience-analyzer | 目标受众分析，精准定位内容方向 | [common/audience-analyzer](skills/common/audience-analyzer/) |
+| copywriting-formulas | 经典文案公式集合（AIDA、PAS、FAB 等） | [common/copywriting-formulas](skills/common/copywriting-formulas/) |
+
+## 安装使用
+
+### 方式一：Claude Code
 
 ```bash
-npx skills add vercel-labs/agent-skills
+# 安装单个 skill（新目录结构）
+cp -r skills/{platform}/{stage}/{skill-name} ~/.claude/skills/
+
+# 示例：安装公众号文章写作 skill
+cp -r skills/wechat/02-creation/article-writer ~/.claude/skills/
+
+# 安装某个平台某阶段的全部 skills
+cp -r skills/wechat/02-creation/* ~/.claude/skills/
+
+# 安装所有 skills
+find skills -name "SKILL.md" -exec dirname {} \; | xargs -I {} cp -r {} ~/.claude/skills/
 ```
 
-## Usage
+### 方式二：claude.ai / Claude Desktop
 
-Skills are automatically available once installed. The agent will use them when relevant tasks are detected.
+将对应 Skill 目录下的 `SKILL.md` 内容添加到项目知识（Project Knowledge）中，或直接粘贴到对话中。
 
-**Examples:**
+### 方式三：Cursor / Windsurf
+
+将 `SKILL.md` 内容添加到项目的 `.cursorrules` 或 `.windsurfrules` 文件中。
+
+## 使用示例
+
 ```
-Deploy my app
+帮我写一篇关于"2025年AI趋势"的公众号文章
 ```
 ```
-Review this React component for performance issues
+生成5个小红书爆款标题，主题是"家居收纳"
 ```
 ```
-Help me optimize this Next.js page
+写一个30秒的抖音短视频脚本，主题是"程序员的日常"
+```
+```
+分析一下最近小红书上"露营"话题的热度趋势
 ```
 
-## Skill Structure
+## Skill 结构
 
-Each skill contains:
-- `SKILL.md` - Instructions for the agent
-- `scripts/` - Helper scripts for automation (optional)
-- `references/` - Supporting documentation (optional)
+每个 Skill 包含：
+
+```
+skills/
+  {platform}/
+    {stage}/                    # 01-planning, 02-creation, 03-optimization, 04-analytics
+      {skill-name}/
+        SKILL.md                # Skill 定义文件（必需）
+        scripts/                # 模板和脚本（可选）
+          templates.md          # 内容模板
+          prompts.md            # AI 提示词
+        references/             # 参考资料（可选）
+          README.md             # 爆款研究、平台规则等
+```
+
+## 平台速查
+
+| 平台 | 标题限制 | 正文限制 | 最佳发布时间 |
+|------|----------|----------|--------------|
+| 公众号 | 64字符 | 建议1500-5000字 | 8:00/12:00/20:00 |
+| 小红书 | 20字符 | 1000字 | 12:00-14:00/18:00-22:00 |
+| 抖音 | 100字以内 | 15-60秒视频 | 12:00-13:00/18:00-20:00 |
+
+## 贡献指南
+
+欢迎提交新的 Skill！请参考 [AGENTS.md](AGENTS.md) 了解 Skill 的创建规范。
+
+**贡献流程：**
+1. Fork 本仓库
+2. 在对应平台和阶段目录下创建新的 Skill
+3. 编写 `SKILL.md` 并测试
+4. 可选：添加 `scripts/` 和 `references/` 目录
+5. 提交 Pull Request
 
 ## License
 

@@ -1,0 +1,35 @@
+{
+  "name": "media-creator-cli",
+  "version": "1.0.0",
+  "description": "CLI tool for managing media creator skills",
+  "type": "module",
+  "bin": {
+    "media-creator-skills": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js"
+  },
+  "keywords": [
+    "cli",
+    "media-creator",
+    "skills",
+    "wechat",
+    "xiaohongshu",
+    "douyin"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "inquirer": "^9.2.23",
+    "ora": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/inquirer": "^9.0.7",
+    "@types/node": "^20.11.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0"
+  }
+}

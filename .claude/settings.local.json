@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(while read dir)",
+      "Bash(do mv \"$dir\" \"$dirs\")",
+      "Bash(done)"
+    ]
+  }
+}
