@@ -89,57 +89,42 @@ Skills 按内容创作 SOP 四阶段组织，便于按工作流程选择使用�
 
 ## 安装使用
 
-### 方式一：Claude Code
+使用 npm 官方包（无需安装，直接运行）：
 
 ```bash
-# 安装单个 skill
-cp -r skills/{platform}/{stage}/{skill-name} ~/.claude/skills/
-
-# 示例：安装公众号文章写作 skill
-cp -r skills/wechat/02-creation/wechat-article-writer ~/.claude/skills/
-
-# 安装某个平台某阶段的全部 skills
-cp -r skills/wechat/02-creation/* ~/.claude/skills/
-
-# 安装所有 skills
-find skills -name "SKILL.md" -exec dirname {} \; | xargs -I {} cp -r {} ~/.claude/skills/
-```
-
-### 方式二：使用 CLI 工具（推荐）
-
-```bash
-cd packages/media-creator-cli
-
 # 列出所有可用技能
-pnpm run dev list
+npx @baichuan-skill/media-creator-skills list
 
 # 交互式安装
-pnpm run dev install
+npx @baichuan-skill/media-creator-skills install
 
 # 按平台和阶段安装
-pnpm run dev install -p wechat -s 02-creation
+npx @baichuan-skill/media-creator-skills install -p wechat -s 02-creation
 
 # 查看技能详情
-pnpm run dev info wechat-article-writer
+npx @baichuan-skill/media-creator-skills info wechat-article-writer
 
 # 搜索技能
-pnpm run dev search 标题
+npx @baichuan-skill/media-creator-skills search 标题
+```
+
+或者全局安装：
+
+```bash
+# 全局安装
+npm install -g @baichuan-skill/media-creator-skills
+
+# 使用命令
+media-creator-skills list
+media-creator-skills install
 ```
 
 详见 [CLI 工具文档](packages/media-creator-cli/README.md)。
 
-### 方式二：claude.ai / Claude Desktop
-
-将对应 Skill 目录下的 `SKILL.md` 内容添加到项目知识（Project Knowledge）中，或直接粘贴到对话中。
-
-### 方式三：Cursor / Windsurf
-
-将 `SKILL.md` 内容添加到项目的 `.cursorrules` 或 `.windsurfrules` 文件中。
-
 ## 使用示例
 
 ```
-帮我写一篇关于"2025年AI趋势"的公众号文章
+帮我写一篇关于"2026年AI趋势"的公众号文章
 ```
 ```
 生成5个小红书爆款标题，主题是"家居收纳"

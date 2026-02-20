@@ -288,18 +288,24 @@ function isDevelopment(): boolean {
  * 获取 skills 目录路径
  */
 async function getSkillsDir(useCache: boolean = true): Promise<string> {
-  // 如果在开发环境，优先使用本地 skills 目录
+  // 1. 如果在开发环境，优先使用本地 skills 目录
   if (isDevelopment()) {
     const localSkillsDir = resolve(__dirname, '../../../skills')
     return localSkillsDir
   }
 
-  // 生产环境：优先使用缓存
+  // 2. 检查是否有随包发布的 skills 目录 (npm install 后)
+  const bundledSkillsDir = resolve(__dirname, '../skills')
+  if (existsSync(bundledSkillsDir) && existsSync(join(bundledSkillsDir, 'wechat'))) {
+    return bundledSkillsDir
+  }
+
+  // 3. 生产环境：优先使用缓存
   if (useCache && existsSync(CACHE_DIR)) {
     return CACHE_DIR
   }
 
-  // 如果没有缓存，同步 GitHub 仓库
+  // 4. 如果没有缓存，同步 GitHub 仓库
   return await syncSkillsRepo(false)
 }
 

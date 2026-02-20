@@ -1,6 +1,6 @@
 {
   "name": "@baichuan-skill/media-creator-skills",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "CLI tool for installing and managing media creator AI skills",
   "type": "module",
   "bin": {
@@ -8,11 +8,12 @@
   },
   "files": [
     "dist",
+    "skills",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "rm -rf skills && cp -r ../../skills . && tsc && chmod +x dist/cli.js",
     "dev": "tsx src/cli.ts",
     "start": "node dist/cli.js",
     "prepublishOnly": "npm run build"

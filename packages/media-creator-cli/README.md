@@ -32,8 +32,6 @@ npx @baichuan-skill/media-creator-skills install --all
 npx @baichuan-skill/media-creator-skills --help
 ```
 
-**注意：** 首次运行会自动从 GitHub 仓库同步技能包，后续使用本地缓存。
-
 ### 从 npm 安装
 
 ```bash
@@ -45,8 +43,9 @@ media-creator-skills --help
 ```
 
 **工作原理：**
-- **npm/npx 使用**：自动从 `https://github.com/WebJeffery/media-creator-skills.git` 同步技能包
-- **本地开发**：如果检测到本地 skills 目录，则直接使用本地版本
+- **优先使用随包发布的技能**：CLI 内置了当前版本的技能包，无需联网即可使用。
+- **本地开发**：如果检测到本地开发环境的 skills 目录，则直接使用本地版本。
+- **GitHub 同步**：如果内置技能包不存在（如使用旧版本），会自动从 GitHub 同步或使用本地缓存。
 
 ## 命令详解
 
@@ -117,17 +116,11 @@ media-creator-skills sync --force
 
 ## 安装目标
 
-技能默认安装到 `~/.claude/skills/` 目录，可在 Claude Desktop 和 Claude.ai 中使用。
+技能默认安装到 `~/.claude/skills/` 目录，可在 Claude Code (CLI) 中使用。
 
-### Claude Desktop 使用
+### Claude Code 使用
 
-安装后，在 Claude Desktop 对话中直接使用触发词即可激活对应技能，例如：
-- "帮我写一篇公众号文章"
-- "生成小红书爆款标题"
-
-### Claude.ai 使用
-
-进入 claude.ai 创建新项目，技能自动集成，无需额外配置。
+安装后，在 Claude Code 交互中直接使用触发词即可激活对应技能。
 
 ## 当前可用技能
 

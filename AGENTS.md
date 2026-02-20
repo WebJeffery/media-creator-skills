@@ -24,9 +24,26 @@ cp -r skills/wechat/**/* ~/.claude/skills/
 find skills -name "SKILL.md" -exec dirname {} \; | xargs -I {} cp -r {} ~/.claude/skills/
 ```
 
-### claude.ai / Claude Desktop
+### Claude Code 集成
 
-将对应 Skill 目录下的 `SKILL.md` 内容添加到项目知识（Project Knowledge）中，或直接粘贴到对话中使用。
+Claude Code 是一款强大的 CLI 工具。技能包默认安装到 `~/.claude/skills` 目录后，Claude Code 会自动识别并加载这些技能。
+
+1. **安装技能**：使用上述 `npx` 命令安装所需技能。
+2. **使用技能**：在 Claude Code 交互界面中，直接通过自然语言触发。
+   - 示例："帮我写一篇关于 AI 的公众号文章"（将自动调用 `wechat-article-writer`）
+
+### claude.ai / Claude Desktop 集成
+
+目前 Claude.ai 和 Claude Desktop 尚未支持自动读取本地 `~/.claude/skills` 目录。需要手动集成：
+
+1. **Project Knowledge（推荐）**：
+   - 在 claude.ai 或 Claude Desktop 中创建新 Project。
+   - 将对应 Skill 的 `SKILL.md` 文件内容添加到 Project Knowledge 中。
+   - 这样在这个 Project 的所有对话中都可以使用该技能。
+
+2. **直接粘贴**：
+   - 将 `SKILL.md` 的内容直接粘贴到对话框中作为上下文。
+
 
 ### 使用示例
 
